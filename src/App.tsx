@@ -19,10 +19,15 @@ import {
 import { ImageGallery } from "./types/global.types";
 import { useState } from "react";
 import { initialImageData } from "./data";
+import ImageCard from "./components/Cards/ImageCard";
 
 function App() {
   const [galleryData, setgalleryData] = useState(initialImageData);
   const [activeItem, setactiveItem] = useState<ImageGallery | null>(null);
+
+  //
+  const handleSelectImage = () => {};
+
   //dnd code starts here
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -75,9 +80,13 @@ function App() {
                   strategy={rectSortingStrategy}
                 >
                   {galleryData.map((imageItem) => (
-                    <div>
-                      <img src={imageItem.slug} alt="" />
-                    </div>
+                    <ImageCard
+                      key={imageItem.id}
+                      id={imageItem.id}
+                      isSelected={imageItem.isSelected}
+                      slug={imageItem.slug}
+                      onClick={handleSelectImage}
+                    />
                   ))}
                 </SortableContext>
               </div>
