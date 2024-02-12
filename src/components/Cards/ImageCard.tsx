@@ -2,6 +2,8 @@ import { useSortable } from "@dnd-kit/sortable";
 import { ImageGallery } from "../../types/global.types";
 import { twMerge } from "tailwind-merge";
 import { CSS } from "@dnd-kit/utilities";
+import CheckboxIcon from "../../assets/Icons/CheckboxIcon";
+import EmptyCheckboxIcon from "../../assets/Icons/EmptyCheckboxIcon";
 
 interface ImageCard extends ImageGallery {
   className?: string;
@@ -47,9 +49,24 @@ const ImageCard = ({
         {...listeners}
         {...attributes}
         className={twMerge(
-          "absolute inset-0 bg-black transition-opacity duration-500 z-50 opacity-0 group-hover:opacity-40"
+          "absolute inset-0 bg-black transition-opacity duration-500 z-50 opacity-0 group-hover:opacity-40",
+          isSelected && "!opacity-0"
         )}
       />
+      <button
+        onClick={onClick && (() => onClick(id))}
+        className={twMerge(
+          "absolute top-2 z-50 left-2 group-hover:opacity-100 transition-opacity duration-500",
+          isSelected && "!opacity-0",
+          !isSelected && "opacity-0"
+        )}
+      >
+        {isSelected ? (
+          <CheckboxIcon className="text-blue-600" />
+        ) : (
+          <EmptyCheckboxIcon />
+        )}
+      </button>
       {/*image block here*/}
       <div
         className={twMerge(

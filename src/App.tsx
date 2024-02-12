@@ -20,13 +20,25 @@ import { ImageGallery } from "./types/global.types";
 import { useState } from "react";
 import { initialImageData } from "./data";
 import ImageCard from "./components/Cards/ImageCard";
+import AddImageCard from "./components/Cards/AddImageCard";
 
 function App() {
   const [galleryData, setgalleryData] = useState(initialImageData);
   const [activeItem, setactiveItem] = useState<ImageGallery | null>(null);
 
   //
-  const handleSelectImage = () => {};
+  const handleSelectImage = (id: string | number) => {
+    const newGalleryData = galleryData.map((imageItem) => {
+      if (imageItem.id === id) {
+        return {
+          ...imageItem,
+          isSelected: !imageItem.isSelected,
+        };
+      }
+      return imageItem;
+    });
+    setgalleryData(newGalleryData);
+  };
 
   //dnd code starts here
   const sensors = useSensors(
@@ -89,6 +101,7 @@ function App() {
                     />
                   ))}
                 </SortableContext>
+                <AddImageCard setgalleryData={setgalleryData} />
               </div>
             </DndContext>
           </div>
