@@ -1,10 +1,9 @@
-import { useSortable } from "@dnd-kit/sortable";
 import { ImageGallery } from "../../types/global.types";
 import { twMerge } from "tailwind-merge";
-import { CSS } from "@dnd-kit/utilities";
-import CheckboxIcon from "../../assets/Icons/CheckboxIcon";
+import CheckboxIcon from "../../assets/Icons/CloseIcon";
 import EmptyCheckboxIcon from "../../assets/Icons/EmptyCheckboxIcon";
-
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 interface ImageCard extends ImageGallery {
   className?: string;
   onClick?: (id: string | number) => void;
@@ -14,8 +13,8 @@ const ImageCard = ({
   id,
   slug,
   isSelected,
-  onClick,
   className = "",
+  onClick,
 }: ImageCard) => {
   const {
     attributes,
@@ -42,7 +41,8 @@ const ImageCard = ({
       ref={setNodeRef}
       style={style}
       className={twMerge(
-        "relative rounded-lg overflow-hidden border border-gray-300 group z-0 aspect-square object-cover"
+        "relative rounded-lg overflow-hidden border border-gray-300 group z-0 aspect-square object-cover",
+        className
       )}
     >
       <button
@@ -54,29 +54,33 @@ const ImageCard = ({
         )}
       />
       <button
-        onClick={onClick && (() => onClick(id))}
         className={twMerge(
           "absolute top-2 z-50 left-2 group-hover:opacity-100 transition-opacity duration-500",
-          isSelected && "!opacity-0",
+          isSelected && "!opacity-100",
           !isSelected && "opacity-0"
         )}
+        onClick={onClick && (() => onClick(id))}
       >
         {isSelected ? (
           <CheckboxIcon className="text-blue-600" />
         ) : (
-          <EmptyCheckboxIcon />
+          <EmptyCheckboxIcon className="" />
         )}
       </button>
-      {/*image block here*/}
       <div
         className={twMerge(
           "flex items-center justify-center h-full",
           isSelected && "opacity-60"
         )}
       >
-        <img src={slug} alt="" className="block h-full w-full object-cover" />
+        <img
+          src={slug}
+          alt={slug}
+          className="block h-full w-full object-cover"
+        />
       </div>
     </div>
   );
 };
+
 export default ImageCard;
